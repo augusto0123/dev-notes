@@ -13,7 +13,6 @@ function showNotes(){
 
     getNotes().forEach((note) => {
         const noteElement = createNote(note.id, note.content, note.fixed);
-
         notesContainer.appendChild(noteElement);
     })
 }
@@ -23,9 +22,7 @@ function cleanNotes(){
 }
 
 function addNote(){
-
     const notes = getNotes();
-    
     const noteObject = {
         id: generateId(),
         content: noteInput.value,
@@ -33,39 +30,27 @@ function addNote(){
     };
 
     const noteElement = createNote(noteObject.id, noteObject.content);
-
     notesContainer.appendChild(noteElement);
-
     notes.push(noteObject);
-
     saveNotes(notes);
     noteInput.value = "";
 };
 
 function createNote(id, content, fixed){
     const element = document.createElement("div")
-
     element.classList.add("note")
-
     const textatea = document.createElement("textarea")
-
     textatea.value = content
-
     textatea.placeholder = "Adicione algum texto..."
-
     element.appendChild(textatea);
-
     const pinIcon = document.createElement("i")
-
     pinIcon.classList.add(...["bi","bi-pin"])
-
     element.appendChild(pinIcon);
 
     const deleteIcon = document.createElement("i")
     deleteIcon.classList.add(...["bi","bi-x-lg"])
     element.appendChild(deleteIcon);
 
-    
     const duplicateIcon = document.createElement("i")
     duplicateIcon.classList.add(...["bi","bi-file-earmark-plus"])
     element.appendChild(duplicateIcon);
@@ -83,28 +68,20 @@ function createNote(id, content, fixed){
     element.querySelector(".bi-x-lg").addEventListener("click", () => {
         deleteNote(id, element);
     })
-
     return element;
 };
 
 function toggleFixNote(id){
     const notes = getNotes()                                                                                
-
     const targetNote = notes.filter((note) => note.id === id)[0]
-
     targetNote.fixed = !targetNote.fixed;
-
     saveNotes(notes);
-
     showNotes();
 }
 
 function deleteNote(id, element){
-
     const notes = getNotes().filter((note) => note.id !== id);
-
     saveNotes(notes);
-
     notesContainer.removeChild(element);
 }
 
@@ -112,9 +89,7 @@ function deleteNote(id, element){
 
 function getNotes(){
     const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-
     const orderedNotes = notes.sort((a,b) => (a.fixed > b.fixed ? -1 : 1));
-
     return orderedNotes;
 }
 
