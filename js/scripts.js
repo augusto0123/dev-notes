@@ -67,7 +67,11 @@ function createNote(id, content, fixed){
 
     element.querySelector(".bi-x-lg").addEventListener("click", () => {
         deleteNote(id, element);
-    })
+    });
+
+    element.querySelector(".bi-file-earmark-plus").addEventListener("click", () => {
+        copyNote(id);
+    });
     return element;
 };
 
@@ -83,6 +87,23 @@ function deleteNote(id, element){
     const notes = getNotes().filter((note) => note.id !== id);
     saveNotes(notes);
     notesContainer.removeChild(element);
+}
+
+function copyNote(id){
+    const notes = getNotes();
+
+    const targetNote = notes.filter((note) => note.id === id)[0];
+
+    const noteObject = {
+        id: generateId(),
+        content: targetNote.content,
+        fixed: false,
+    };
+
+    const noteElement = createNote(noteObject.id, noteObject.content, noteObject.fixed)
+    notesContainer.appendChild(noteElement);
+    notes.push(noteObject);
+    saveNotes(notes);
 }
 
 // Local Storage
